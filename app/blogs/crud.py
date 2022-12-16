@@ -46,6 +46,7 @@ def get_blog(id, db: Session = Depends(get_db)):
 def delete_blog(id, db: Session = Depends(get_db)):
 
     blog_to_delete = db.query(models.Blog).filter(models.Blog.id == id)
+
     if not blog_to_delete.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="blog not found")
     else:
@@ -57,7 +58,7 @@ def delete_blog(id, db: Session = Depends(get_db)):
 
 
 # Update blog
-@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
+@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED, response_model=schemas.Blog)
 def update_blog(id, request: schemas.BlogBase,db: Session = Depends(get_db)):
 
     blog_to_update = db.query(models.Blog).filter(models.Blog.id == id)
@@ -68,4 +69,4 @@ def update_blog(id, request: schemas.BlogBase,db: Session = Depends(get_db)):
         blog_to_update.update(request)
         db.commit()
 
-    return 'updated successfully'
+    return blog_to_update
