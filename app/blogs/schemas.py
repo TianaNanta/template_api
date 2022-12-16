@@ -6,11 +6,11 @@ class BlogBase(BaseModel):
     body: str
 
 
-class ItemCreate(BlogBase):
+class BlogCreate(BlogBase):
     pass
 
 
-class Item(BlogBase):
+class Blog(BlogBase):
     id: int
     owner_id: int
 

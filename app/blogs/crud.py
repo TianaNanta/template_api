@@ -22,7 +22,7 @@ def create_blog(blog: schemas.BlogBase, db: Session = Depends(get_db)):
 
 
 # List blogs
-@router.get("/", status_code=status.HTTP_200_OK)
+@router.get("/", status_code=status.HTTP_200_OK, response_model=list[schemas.Blog])
 def list_blogs(db: Session = Depends(get_db)):
 
     blogs = db.query(models.Blog).all()
@@ -31,7 +31,7 @@ def list_blogs(db: Session = Depends(get_db)):
 
 
 # Get blog by id
-@router.get('/{id}', status_code=status.HTTP_200_OK)
+@router.get('/{id}', status_code=status.HTTP_200_OK, response_model=schemas.Blog)
 def get_blog(id, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
 
@@ -52,9 +52,8 @@ def delete_blog(id, db: Session = Depends(get_db)):
         blog_to_delete.delete(synchronize_session=False)
 
         db.commit()
-        db.refresh()
 
-        return 'blog deleted successfully'
+    return 'blog deleted successfully'
 
 
 # Update blog
@@ -68,6 +67,5 @@ def update_blog(id, request: schemas.BlogBase,db: Session = Depends(get_db)):
     else:
         blog_to_update.update(request)
         db.commit()
-        db.refresh()
 
-        return 'updated successfully'
+    return 'updated successfully'
