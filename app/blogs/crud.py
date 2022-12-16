@@ -10,7 +10,7 @@ router = APIRouter(prefix="/blogs")
 
 
 # Create blog
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Blog)
 def create_blog(blog: schemas.BlogBase, db: Session = Depends(get_db)):
 
     new_blog = models.Blog(title=blog.title, body=blog.body)
