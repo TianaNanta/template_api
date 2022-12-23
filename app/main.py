@@ -1,8 +1,18 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
-from .router import root_api_rooter
 
+from app.database import Base, engine
+from app.routers import blogs, users
 from app.core.config import settings
+
+
+root_api_rooter = APIRouter(prefix="/api")
+root_api_rooter.include_router(blogs.router)
+root_api_rooter.include_router(users.auth)
+root_api_rooter.include_router(users.router)
+
+def create_database():
+    return Base.metadata.create_all(bind=engine)
 
 
 def get_application():
@@ -20,5 +30,6 @@ def get_application():
 
     return _app
 
+create_database()
 
 app = get_application()
