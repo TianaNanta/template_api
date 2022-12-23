@@ -1,6 +1,7 @@
 # template_api
 
-This project was generated via [manage-fastapi](https://ycd.github.io/manage-fastapi/)! :tada:
+This project is a a test template of a FastAPI Crud API and JWT authentification
+It's not a final project but I update it periodically
 
 ## License
 
